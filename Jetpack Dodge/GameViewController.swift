@@ -13,8 +13,6 @@ import AVFoundation
 
 class GameViewController: UIViewController {
     
-    @IBOutlet weak var background: UIImageView!
-    
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var rock1: UIImageView!
     @IBOutlet weak var rock2: UIImageView!
@@ -25,8 +23,6 @@ class GameViewController: UIViewController {
     
     
     var audioPlayer = AVAudioPlayer()
-    
-    var sorter: Sorter?
     
     var screen = 0
     
@@ -51,6 +47,7 @@ class GameViewController: UIViewController {
         catch {
             print(error)
         }
+        
     }
 
     override var shouldAutorotate: Bool {
@@ -77,8 +74,7 @@ class GameViewController: UIViewController {
     @IBAction func gameStart(_ sender: Any) {
     screen = 1
     print(screen)
-    background.isHidden = true
-    background.layer.zPosition = -20
+
     button.isHidden = true
     coin1.isHidden = true
     rock1.isHidden = true
@@ -100,6 +96,5 @@ class GameViewController: UIViewController {
             }
         }
     }
-    
     
 }

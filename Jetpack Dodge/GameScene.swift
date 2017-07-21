@@ -11,6 +11,17 @@ import GameplayKit
 import UIKit
 import AVFoundation
 
+struct ColliderType {
+    static let Player: UInt32 = 1
+    static let Enemy: UInt32 = 2
+    static let Coin: UInt32 = 3
+}
+
+let spaceShipTexture = SKTexture(image: #imageLiteral(resourceName: "ship6"))
+let coinTexture = SKTexture(image: #imageLiteral(resourceName: "coin1"))
+let enemyTexture = SKTexture(image: #imageLiteral(resourceName: "rock1"))
+var timer = SKAction.wait(forDuration: 4)
+
 class GameScene: SKScene {
     
     var myShip = SKSpriteNode()
@@ -30,13 +41,23 @@ class GameScene: SKScene {
     
     var lives = 3
     var score = 0
-
+    
     
     override func didMove(to view: SKView) {
-
+        
+        backgroundPic.zPosition = -1
+        backgroundPic.position = CGPoint(x: frame.size.width/2, y: frame.size.height/2)
+        backgroundPic.size = CGSize(width: 5000, height: 5000)
+        addChild(backgroundPic)
         
         self.scoreboard.position = CGPoint(x: 0, y: -650)
         self.scoreboard.color = UIColor(red: 150, green: 0, blue: 0, alpha: 0.3)
+        
+        for i in (1...3)
+        {
+            let textureName = "ship\(i)"
+            textureArray.append(SKTexture(imageNamed: textureName))
+        }
         
         for i in (1...6)
         {
@@ -54,7 +75,8 @@ class GameScene: SKScene {
             let rockTextureName = "rock\(i)"
             rockTextureArray.append(SKTexture(imageNamed: rockTextureName))
         }
-    
+        
+        
         if(textureArray.count > 1) {
         myShip = SKSpriteNode(imageNamed: "ship1")
         myShip.position = CGPoint(x: 0, y: -300)
@@ -75,12 +97,6 @@ class GameScene: SKScene {
         }
         
         
-        self.addChild(scoreboard)
-        self.addChild(myShip)
-        self.addChild(coin)
-        self.addChild(enemy)
-        self.addChild(label)
-        
         
         myShip.run(SKAction.repeatForever(
             SKAction.animate(with: textureArray,
@@ -100,6 +116,13 @@ class GameScene: SKScene {
                              resize: false,
                              restore: true)),withKey:"Rock")
         generateEnemies()
+        
+        self.addChild(scoreboard)
+        self.addChild(myShip)
+        self.addChild(coin)
+        self.addChild(enemy)
+        self.addChild(label)
+        
     }
 
     
@@ -114,12 +137,9 @@ class GameScene: SKScene {
             myShip.run(SKAction.moveTo(y: location.y, duration: 0.25)) // moves ship to y location of touch
         }
         
-         generateEnemies()
-        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        enemy.isHidden = false
         
         for touch in touches {
             
@@ -140,8 +160,6 @@ class GameScene: SKScene {
         self.label.text = "   lives:      \(lives)                               score:     \(score)"
         self.label.fontName = "Times New Roman"
         self.label.position = CGPoint(x : -60, y: -660)
-        
-        score += 5
 
     }
     
@@ -156,6 +174,7 @@ class GameScene: SKScene {
         
         
         let timer = SKAction.wait(forDuration: 2)
+        
         
         //let timer = SKAction.waitForDuration(10, withRange: 3)//you can use withRange to randomize duration
         
@@ -199,6 +218,15 @@ class GameScene: SKScene {
         
         
         self.run(SKAction.repeatForever(sequence) , withKey: "spawning") // run action with key so you can remove it later 
+    }
+    
+    
+    
+    func didBegin() {
+        if(lives == 0)
+        {
+            
+        }
     }
     
 }
