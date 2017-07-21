@@ -18,18 +18,24 @@ class GameScene: SKScene {
     
     var coin = SKSpriteNode()
     var coinTextureArray = [SKTexture]()
-
+    
     var enemy = SKSpriteNode()
+    var rockTextureArray = [SKTexture]()
+    
     var scoreboard = SKSpriteNode(color: SKColor.green, size: CGSize(width: 750, height:40))
     var label = SKLabelNode()
     
     var lives = 3
     var score = 0
+    
+    var gvc = GameViewController()
 
     
     
     
     override func didMove(to view: SKView) {
+        
+        print(gvc.number)
         
         self.scoreboard.position = CGPoint(x: 0, y: -650)
         self.scoreboard.color = UIColor(red: 150, green: 0, blue: 0, alpha: 0.3)
@@ -47,6 +53,10 @@ class GameScene: SKScene {
             coinTextureArray.append(SKTexture(imageNamed: coinTextureName))
         }
         
+        for i in (1...4){
+            let rockTextureName = "rock\(i)"
+            rockTextureArray.append(SKTexture(imageNamed: rockTextureName))
+        }
     
         if(textureArray.count > 1) {
         myShip = SKSpriteNode(imageNamed: "ship1")
@@ -62,6 +72,14 @@ class GameScene: SKScene {
             self.addChild(coin)
         }
         
+        if(rockTextureArray.count > 1)
+        {
+        enemy = SKSpriteNode(imageNamed: "rock1")
+        enemy.position = CGPoint(x: 0, y: 0)
+            enemy.size = CGSize(width: 800, height:500)
+        self.addChild(enemy)
+        }
+        
         
         myShip.run(SKAction.repeatForever(
             SKAction.animate(with: textureArray,
@@ -75,11 +93,13 @@ class GameScene: SKScene {
                              resize: false,
                              restore: true)),withKey:"Coin")
         
+        enemy.run(SKAction.repeatForever(
+            SKAction.animate(with: rockTextureArray,
+                             timePerFrame: 0.1,
+                             resize: false,
+                             restore: true)),withKey:"Rock")
         
-        
-        
-        enemy = self.childNode(withName: "enemy") as! SKSpriteNode
-        
+    
                 self.addChild(label)
         
         
@@ -183,7 +203,9 @@ class GameScene: SKScene {
             
             
             self.enemy.run(SKAction.moveTo(y: self.enemy.position.y - 2000, duration: 1.5))
-            self.enemy.size.width = CGFloat(arc4random_uniform(200)) + 100
+            self.enemy.size.width = CGFloat(arc4random_uniform(200)) + 400
+            self.enemy.size.height = CGFloat(arc4random_uniform(200)) + 400
+            
             self.coin.run(SKAction.moveTo(y: self.coin.position.y - 2000, duration: 1.0))
             
         }

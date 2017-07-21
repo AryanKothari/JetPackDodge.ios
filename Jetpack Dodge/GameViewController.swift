@@ -15,6 +15,8 @@ class GameViewController: UIViewController {
 
         var audioPlayer = AVAudioPlayer()
     
+    var number = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,7 +34,7 @@ class GameViewController: UIViewController {
             
             view.showsFPS = false
             view.showsNodeCount = false
-            
+        
             do {
                 audioPlayer = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "song", ofType: "mp3")!))
                 audioPlayer.prepareToPlay()
