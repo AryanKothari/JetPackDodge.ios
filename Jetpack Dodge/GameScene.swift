@@ -23,23 +23,20 @@ class GameScene: SKScene {
     var rockTextureArray = [SKTexture]()
     
     var scoreboard = SKSpriteNode(color: SKColor.green, size: CGSize(width: 750, height:40))
+    
     var label = SKLabelNode()
+    
+    var imageView = SKSpriteNode()
     
     var lives = 3
     var score = 0
-    
-    var gvc = GameViewController()
 
     
-    
-    
     override func didMove(to view: SKView) {
-        
-        print(gvc.number)
+
         
         self.scoreboard.position = CGPoint(x: 0, y: -650)
         self.scoreboard.color = UIColor(red: 150, green: 0, blue: 0, alpha: 0.3)
-                self.addChild(scoreboard)
         
         for i in (1...6)
         {
@@ -62,14 +59,12 @@ class GameScene: SKScene {
         myShip = SKSpriteNode(imageNamed: "ship1")
         myShip.position = CGPoint(x: 0, y: -300)
         myShip.size = CGSize(width: 400,height: 400)
-        self.addChild(myShip)
         }
         
         if(coinTextureArray.count > 1) {
             coin = SKSpriteNode(imageNamed: "coin1")
             coin.position = CGPoint(x: 0, y: 0)
             coin.size = CGSize(width: 200, height: 200)
-            self.addChild(coin)
         }
         
         if(rockTextureArray.count > 1)
@@ -77,8 +72,14 @@ class GameScene: SKScene {
         enemy = SKSpriteNode(imageNamed: "rock1")
         enemy.position = CGPoint(x: 0, y: 0)
             enemy.size = CGSize(width: 800, height:500)
-        self.addChild(enemy)
         }
+        
+        
+        self.addChild(scoreboard)
+        self.addChild(myShip)
+        self.addChild(coin)
+        self.addChild(enemy)
+        self.addChild(label)
         
         
         myShip.run(SKAction.repeatForever(
@@ -98,13 +99,7 @@ class GameScene: SKScene {
                              timePerFrame: 0.1,
                              resize: false,
                              restore: true)),withKey:"Rock")
-        
-    
-                self.addChild(label)
-        
-        
         generateEnemies()
-
     }
 
     
@@ -117,12 +112,6 @@ class GameScene: SKScene {
             
             myShip.run(SKAction.moveTo(x: location.x, duration: 0.25)) // moves ship to x location of touch
             myShip.run(SKAction.moveTo(y: location.y, duration: 0.25)) // moves ship to y location of touch
-            
-            
-            
-            
-            
-            
         }
         
          generateEnemies()
@@ -140,10 +129,6 @@ class GameScene: SKScene {
             
             myShip.run(SKAction.moveTo(y: location.y, duration: 0.25)) // moves ship to y location of touch
             
-            
-            
-            
-            
         }
         
         
@@ -156,8 +141,8 @@ class GameScene: SKScene {
         self.label.fontName = "Times New Roman"
         self.label.position = CGPoint(x : -60, y: -660)
         
-                  score += 5
-        
+        score += 5
+
     }
     
     

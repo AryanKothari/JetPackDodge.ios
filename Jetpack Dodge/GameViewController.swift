@@ -12,37 +12,44 @@ import GameplayKit
 import AVFoundation
 
 class GameViewController: UIViewController {
-
-        var audioPlayer = AVAudioPlayer()
     
-    var number = 1
+    @IBOutlet weak var background: UIImageView!
+    
+    @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var rock1: UIImageView!
+    @IBOutlet weak var rock2: UIImageView!
+    @IBOutlet weak var coin1: UIImageView!
+    @IBOutlet weak var pressAnywhereLabel: UILabel!
+    @IBOutlet weak var dodgeTitle: UIImageView!
+    @IBOutlet weak var spaceship: UIImageView!
+    
+    
+    var audioPlayer = AVAudioPlayer()
+    
+    var sorter: Sorter?
+    
+    var screen = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
-                // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
-                
-                // Present the scene
-                view.presentScene(scene)
-            }
-            
             view.ignoresSiblingOrder = true
             
             view.showsFPS = false
             view.showsNodeCount = false
         
-            do {
-                audioPlayer = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "song", ofType: "mp3")!))
-                audioPlayer.prepareToPlay()
-                audioPlayer.play()
-            }
-            catch {
-                print(error)
-            }
+        }
+        
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: URL.init(fileURLWithPath: Bundle.main.path(forResource: "song", ofType: "mp3")!))
+            audioPlayer.prepareToPlay()
+            audioPlayer.play()
+        }
+        catch {
+            print(error)
         }
     }
 
@@ -66,4 +73,33 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    @IBAction func gameStart(_ sender: Any) {
+    screen = 1
+    print(screen)
+    background.isHidden = true
+    background.layer.zPosition = -20
+    button.isHidden = true
+    coin1.isHidden = true
+    rock1.isHidden = true
+    rock2.isHidden = true
+    spaceship.isHidden = true
+    dodgeTitle.isHidden = true
+    pressAnywhereLabel.isHidden = true
+        
+        
+        
+        if let view = self.view as! SKView? {
+            // Load the SKScene from 'GameScene.sks'
+            if let scene = SKScene(fileNamed: "GameScene") {
+                // Set the scale mode to scale to fit the window
+                scene.scaleMode = .aspectFill
+                
+                // Present the scene
+                view.presentScene(scene)
+            }
+        }
+    }
+    
+    
 }
